@@ -6,6 +6,7 @@ import org.zerock.guestbook.dto.PageRequestDto;
 import org.zerock.guestbook.dto.PageResultDto;
 import org.zerock.guestbook.entity.Guestbook;
 
+@Service
 public interface GuestbookService {
 
     Long register(GuestbookDto dto);

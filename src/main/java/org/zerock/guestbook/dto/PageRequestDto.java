@@ -7,15 +7,15 @@ import org.springframework.data.domain.Sort;
 
 
 @Builder
-@Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@Data
 public class PageRequestDto {
 
     private int page;
     private int size;
 
 
-    public PageRequestDto(int page, int size) {
+    public PageRequestDto() {
         this.page = 1;
         this.size = 10;
     }

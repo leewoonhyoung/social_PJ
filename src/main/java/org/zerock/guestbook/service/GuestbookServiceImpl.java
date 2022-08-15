@@ -1,5 +1,6 @@
 package org.zerock.guestbook.service;
 
+import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -37,11 +38,11 @@ public class GuestbookServiceImpl implements  GuestbookService{
     }
 
     @Override
-    public PageResultDto<GuestbookDto, Guestbook> getList(PageRequestDto requestDto) {
+    public PageResultDto<GuestbookDto, Guestbook> getList(PageRequestDto requestDTO) {
 
-        Pageable pageable = requestDto.getPageable(Sort.by("gno").descending());
+        Pageable pageable = requestDTO.getPageable(Sort.by("gno").descending());
 
-        Page<Guestbook> result = guestbookRepository.findAll(pageable);
+        Page<Guestbook> result = guestbookRepository.findAll(pageable); //Querydsl 사용
 
         Function<Guestbook, GuestbookDto> fn = (entity -> entityToDto(entity));
 

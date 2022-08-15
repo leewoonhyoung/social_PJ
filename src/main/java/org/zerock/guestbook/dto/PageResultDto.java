@@ -10,9 +10,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Data
-public class PageResultDto<Dto, EN> {
+public class PageResultDto<DTO, EN> {
 
-    private List<Dto> dtoList;
+    //DTO리스트
+    private List<DTO> dtoList;
 
     //총 페이지 번호
     private int totalPage;
@@ -31,29 +32,35 @@ public class PageResultDto<Dto, EN> {
     //페이지 번호  목록
     private List<Integer> pageList;
 
-    public PageResultDto(Page<EN> result, Function<EN, Dto> fn){
+
+    public PageResultDto(Page<EN> result, Function<EN,DTO> fn ){
 
         dtoList = result.stream().map(fn).collect(Collectors.toList());
 
         totalPage = result.getTotalPages();
 
         makePageList(result.getPageable());
-
     }
 
-    private void makePageList(Pageable pageable) {
-        this.page = pageable.getPageNumber() + 1;
+
+    private void makePageList(Pageable pageable){
+
+        this.page = pageable.getPageNumber() + 1; // 0부터 시작하므로 1을 추가
         this.size = pageable.getPageSize();
 
+        //temp end page
         int tempEnd = (int)(Math.ceil(page/10.0)) * 10;
 
         start = tempEnd - 9;
 
-        prev = start > 1; // true or false
-        end  = totalPage > tempEnd ? tempEnd: totalPage;
-        next = totalPage >  tempEnd; // true or false.
+        prev = start > 1; // true or false // 이전 button
+
+        end  = totalPage > tempEnd ? tempEnd: totalPage; // 화면 끝 페이지 번호
+
+        next = totalPage >  tempEnd; // true or false. //이후 button.
 
         pageList = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
+
     }
 
 }

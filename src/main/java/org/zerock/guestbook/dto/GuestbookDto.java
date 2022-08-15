@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
+@Data
 public class GuestbookDto {
 
     private Long gno;
