@@ -1,9 +1,14 @@
 package org.zerock.guestbook.dto;
 
+import lombok.*;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+
+@Builder
+@Getter
+@RequiredArgsConstructor
 public class PageRequestDto {
 
     private int page;
