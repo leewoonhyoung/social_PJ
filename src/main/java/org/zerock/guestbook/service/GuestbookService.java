@@ -15,6 +15,14 @@ public interface GuestbookService {
 
     GuestbookDto read(Long gno);
 
+    //삭제 코드
+    void remove(Long gno);
+
+    //수정 코드
+    void modify(GuestbookDto guestbookDto);
+
+
+    //DTO를 Entity로 변환 코드
     default Guestbook dtoToEntity(GuestbookDto dto){
 
         Guestbook entity = Guestbook.builder()

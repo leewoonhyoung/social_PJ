@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.zerock.guestbook.dto.GuestbookDto;
@@ -17,9 +18,6 @@ class GuestbookServiceTest {
 
     @Autowired
     private GuestbookService guestbookService;
-
-    @Autowired
-    private GuestbookService service;
 
 
     @Test
@@ -40,7 +38,7 @@ class GuestbookServiceTest {
 
         PageRequestDto pageRequestDTO = PageRequestDto.builder().page(1).size(10).build();
 
-        PageResultDto<GuestbookDto, Guestbook> resultDTO = service.getList(pageRequestDTO);
+        PageResultDto<GuestbookDto, Guestbook> resultDTO = guestbookService.getList(pageRequestDTO);
 
         for (GuestbookDto guestbookDTO : resultDTO.getDtoList()) {
             System.out.println(guestbookDTO);
@@ -51,7 +49,7 @@ class GuestbookServiceTest {
     @DisplayName("인덱스 테스트")
     public void testList2(){
         PageRequestDto pageRequestDto = PageRequestDto.builder().page(1).size(10).build();
-        PageResultDto<GuestbookDto, Guestbook> resultDto = service.getList(pageRequestDto);
+        PageResultDto<GuestbookDto, Guestbook> resultDto = guestbookService.getList(pageRequestDto);
 
         System.out.println("resultDto.isPrev() = " + resultDto.isPrev());
         System.out.println("resultDto.isNext() = " + resultDto.isNext());
@@ -65,5 +63,30 @@ class GuestbookServiceTest {
         resultDto.getPageList().forEach(i -> System.out.println(i));
 
     }
+    @Test
+    public void testSearch(){
+        PageRequestDto pageRequestDto = PageRequestDto.builder()
+                .page(1)
+                .size(10)
+                .type("tc") // 검색 조건
+                .keyword("한글") // 검색 키워드
+                .build();
+
+        PageResultDto<GuestbookDto, Guestbook> resultDTO = guestbookService.getList(pageRequestDto);
+
+        System.out.println("PREV: "+resultDTO.isPrev());
+        System.out.println("NEXT: "+resultDTO.isNext());
+        System.out.println("TOTAL: " + resultDTO.getTotalPage());
+
+        System.out.println("-------------------------------------");
+        for (GuestbookDto guestbookDTO : resultDTO.getDtoList()) {
+            System.out.println(guestbookDTO);
+        }
+
+        System.out.println("========================================");
+        resultDTO.getPageList().forEach(i -> System.out.println(i));
+    }
+
+
 
 }
